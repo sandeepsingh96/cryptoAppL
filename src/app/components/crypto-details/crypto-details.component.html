@@ -1,6 +1,6 @@
-<div class="container">
-    <div class="row">
-        <div *ngIf="coinData" class="col-md-12 d-flex justify-content-center ">
+<div class="container-fluid">
+    <div class="row main">
+        <div *ngIf="coinData" class="col-md-12 ">
             <mat-card class="example-card">
                 <mat-card-header>
                     <div mat-card-avatar class="example-header-image" style="background-image: url('{{coinData.image?.small}}');"></div>
@@ -8,6 +8,7 @@
                     <mat-card-subtitle>{{coinData?.hashing_algorithm}}</mat-card-subtitle>
                 </mat-card-header>
                 <img class="mainImage" [src]="coinData.image?.large" alt="Photo of a Shiba Inu">
+                <mat-card-subtitle>Current Price:{{coinData?.market_data?.current_price.cad |currency:"USD"}}</mat-card-subtitle>
                 <mat-card-content>
                     <p style="color: white; " [innerHTML]="coinData.description?.en">
                       
@@ -19,5 +20,10 @@
                 </mat-card-actions>
             </mat-card>
         </div>
-    </div>
+        <div class="col-md-9 centered-div">
+            <div class="main">
+            <h1 class="text-center p-3">Trends of last 30 days</h1>
+            <canvas style="width: 300px;" baseChart [data]="lineChartData" [options]="lineChartOptions"  [type]="lineChartType"></canvas>
+        </div>
+    </div></div>
 </div>

@@ -17,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { CryptoDetailsComponent } from './components/crypto-details/crypto-details.component';
 import { MatCardModule } from '@angular/material/card';
-
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +40,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatSortModule,
     MatCardModule,
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
