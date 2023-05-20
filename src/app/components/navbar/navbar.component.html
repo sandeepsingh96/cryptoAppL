@@ -1,0 +1,14 @@
+
+    
+<mat-toolbar class="mainHead ">
+    <span>{{title}}</span>
+
+    <mat-form-field class="example-form-field pt-3 ">
+        <mat-label>Search here...</mat-label>
+        <input matInput type="text" [(ngModel)]="value">
+        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</mat-toolbar>
+

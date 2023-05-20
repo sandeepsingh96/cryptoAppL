@@ -1,0 +1,9 @@
+.mainHead{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.example-form-field {
+    width: 200px;
+    
+}
