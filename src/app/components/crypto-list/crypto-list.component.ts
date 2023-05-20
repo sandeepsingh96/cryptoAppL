@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-crypto-list',
@@ -10,7 +11,7 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class CryptoListComponent implements OnInit {
   coinsData: any = [];
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private router: Router) {}
 
   displayedColumns: string[] = ['Coin', 'Price', '24 Hrs', 'Market cap'];
   dataSource!: MatTableDataSource<any>;
@@ -26,6 +27,9 @@ export class CryptoListComponent implements OnInit {
       // Assign the MatSort instance to the dataSource's sort property
       this.dataSource.sort = this.sort;
     });
+  }
+  gotoDetails(row: any) {
+    this.router.navigate(['details/', row.id]);
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
