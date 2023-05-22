@@ -1,9 +1,16 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 @Component({
   selector: 'app-crypto-list',
   templateUrl: './crypto-list.component.html',
@@ -11,20 +18,27 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class CryptoListComponent implements OnInit {
   coinsData: any = [];
-  constructor(private api: ApiService, private router: Router) {}
-
+  currency!: string;
   displayedColumns: string[] = ['Coin', 'Price', '24 Hrs', 'Market cap'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  ngOnInit(): void {
-    this.api.getAllCurrencies('CAD').subscribe((result) => {
-      console.log(result);
-      this.coinsData = result;
-      this.dataSource = new MatTableDataSource(result);
-      this.dataSource.paginator = this.paginator;
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private currencyVal: CurrencyService
+  ) {}
 
-      // Assign the MatSort instance to the dataSource's sort property
+  ngOnInit(): void {
+    this.currencyVal.getCurrency().subscribe((val) => {
+      this.currency = val;
+      this.getAllData();
+    });
+  }
+  getAllData() {
+    this.api.getAllCurrencies(this.currency).subscribe((res) => {
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }

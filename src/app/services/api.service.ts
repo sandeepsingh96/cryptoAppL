@@ -14,9 +14,7 @@ export class ApiService {
 `);
   }
   getCoinData(coin: string): Observable<any> {
-    return this.http.get<any>(
-      `https://api.coingecko.com/api/v3/coins/${coin}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false&sparkline=false`
-    );
+    return this.http.get<any>(`https://api.coingecko.com/api/v3/coins/${coin}`);
   }
   getGrpahicalCurrencyData(coinId: any, currency: string, days: number) {
     return this.http.get<any>(

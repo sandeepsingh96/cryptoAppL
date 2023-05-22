@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 export class CurrencyService {
   constructor() {}
 
-  currency: string = 'CAD';
+  private selectedCurrency$: BehaviorSubject<string> =
+    new BehaviorSubject<string>('CAD');
   getCurrency() {
-    return this.currency;
+    return this.selectedCurrency$.asObservable();
   }
   setCurrency(val: string) {
-    return (this.currency = val);
+    return this.selectedCurrency$.next(val);
   }
 }

@@ -1,5 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSelect } from '@angular/material/select';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
@@ -8,20 +14,16 @@ import { CurrencyService } from 'src/app/services/currency.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private currency: CurrencyService) {
-    this.getCurrency();
-  }
-  ngOnInit(): void {}
-  @ViewChild(MatSelect) select!: MatSelect;
   title: string = 'CrytoApp';
   selected!: string;
-  onSelectionChange() {
-    this.select.writeValue(this.selected);
-
-    this.currency.setCurrency(this.selected);
-    this.getCurrency();
+  constructor(private currency: CurrencyService) {}
+  ngOnInit(): void {
+    this.currency.getCurrency().subscribe((result) => {
+      this.selected = result;
+    });
   }
-  getCurrency() {
-    this.selected = this.currency.getCurrency();
+
+  onSelectionChange(event: string): void {
+    this.currency.setCurrency(event);
   }
 }
