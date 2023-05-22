@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { CryptoDetailsComponent } from './components/crypto-details/crypto-details.component';
+import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { NgChartsModule } from 'ng2-charts';
 @NgModule({
@@ -41,6 +42,7 @@ import { NgChartsModule } from 'ng2-charts';
     MatSortModule,
     MatCardModule,
     NgChartsModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
