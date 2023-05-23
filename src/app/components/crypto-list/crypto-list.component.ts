@@ -20,6 +20,8 @@ import { CurrencyService } from 'src/app/services/currency.service';
 export class CryptoListComponent implements OnInit {
   someTesting: string[] = [];
   coinsData: any = [];
+  favList: string[] = [];
+  storedItems = JSON.parse(localStorage.getItem('favoriteItems') || '[]');
   currency!: string;
   displayedColumns: string[] = ['Coin', 'Price', '24 Hrs', 'Market cap'];
   dataSource!: MatTableDataSource<any>;
@@ -42,6 +44,12 @@ export class CryptoListComponent implements OnInit {
   getAllData() {
     this.api.getAllCurrencies(this.currency).subscribe((res) => {
       console.log(res);
+      const apiNames = res as any[];
+      apiNames.forEach((data) => {
+        if (this.storedItems.includes(data.id)) {
+          this.favList.push(data.id);
+        }
+      });
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
