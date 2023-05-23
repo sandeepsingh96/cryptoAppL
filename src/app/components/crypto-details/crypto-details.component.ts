@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ChartConfiguration, ChartType } from 'chart.js';
@@ -100,5 +100,27 @@ export class CryptoDetailsComponent implements OnInit {
           return this.days === 1 ? time : date.toLocaleDateString();
         });
       });
+  }
+  toggleFavorite(val: string) {
+    const storedItems = JSON.parse(
+      localStorage.getItem('favoriteItems') || '[]'
+    );
+    const index = storedItems.indexOf(val);
+
+    if (index > -1) {
+      storedItems.splice(index, 1);
+      localStorage.setItem('favoriteItems', JSON.stringify(storedItems));
+      console.log('Removed item:', val);
+    } else {
+      storedItems.push(val);
+      localStorage.setItem('favoriteItems', JSON.stringify(storedItems));
+    }
+  }
+
+  isFavoriteItem(val: string) {
+    const storedItems = JSON.parse(
+      localStorage.getItem('favoriteItems') || '[]'
+    );
+    return storedItems.includes(val);
   }
 }

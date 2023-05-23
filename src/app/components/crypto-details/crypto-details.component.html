@@ -8,7 +8,17 @@
             class="example-header-image"
             style="background-image: url('{{ coinData.image?.small }}');"
           ></div>
-          <mat-card-title>{{ coinData.name }}</mat-card-title>
+          <mat-card-title
+            >{{ coinData.name
+            }}<button
+              class="btn btn-link"
+              (click)="toggleFavorite(coinData.id)"
+            >
+              <mat-icon>{{
+                isFavoriteItem(coinData.id) ? "favorite" : "favorite_border"
+              }}</mat-icon>
+            </button></mat-card-title
+          >
           <mat-card-subtitle>{{
             coinData?.hashing_algorithm
           }}</mat-card-subtitle>
