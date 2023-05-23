@@ -46,6 +46,11 @@
             </th>
             <td mat-cell *matCellDef="let row">
               {{ row.market_cap }}
+              <button class="btn btn-link ml-2">
+                <mat-icon>{{
+                  isFavoriteItem(row.id) ? "favorite" : "favorite_border"
+                }}</mat-icon>
+              </button>
             </td>
           </ng-container>
 

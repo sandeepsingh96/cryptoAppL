@@ -19,6 +19,7 @@ import { CryptoDetailsComponent } from './components/crypto-details/crypto-detai
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { NgChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,

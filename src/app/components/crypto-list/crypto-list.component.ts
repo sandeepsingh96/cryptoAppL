@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,12 +18,14 @@ import { CurrencyService } from 'src/app/services/currency.service';
   styleUrls: ['./crypto-list.component.css'],
 })
 export class CryptoListComponent implements OnInit {
+  someTesting: string[] = [];
   coinsData: any = [];
   currency!: string;
   displayedColumns: string[] = ['Coin', 'Price', '24 Hrs', 'Market cap'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     private api: ApiService,
     private router: Router,
@@ -35,8 +38,10 @@ export class CryptoListComponent implements OnInit {
       this.getAllData();
     });
   }
+
   getAllData() {
     this.api.getAllCurrencies(this.currency).subscribe((res) => {
+      console.log(res);
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -52,5 +57,11 @@ export class CryptoListComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  isFavoriteItem(val: string) {
+    const storedItems = JSON.parse(
+      localStorage.getItem('favoriteItems') || '[]'
+    );
+    return storedItems.includes(val);
   }
 }
