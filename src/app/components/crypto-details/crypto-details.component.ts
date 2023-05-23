@@ -3,16 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { CurrencyService } from 'src/app/services/currency.service';
 @Component({
   selector: 'app-crypto-details',
   templateUrl: './crypto-details.component.html',
   styleUrls: ['./crypto-details.component.css'],
 })
 export class CryptoDetailsComponent implements OnInit {
-  coinName: string | null = 'CAD';
+  coinName!: string | null;
   coinData: any = [];
   days: number = 30;
-  currency: string = 'INR';
+  currency!: string;
   public lineChartData: ChartConfiguration['data'] = {
     datasets: [
       {
@@ -41,17 +42,40 @@ export class CryptoDetailsComponent implements OnInit {
   };
   public lineChartType: ChartType = 'line';
   @ViewChild(BaseChartDirective) myLineChart!: BaseChartDirective;
-  constructor(private link: ActivatedRoute, private api: ApiService) {
-    this.getData();
-    this.getGraphData(this.days);
+  constructor(
+    private link: ActivatedRoute,
+    private api: ApiService,
+    private currencyApi: CurrencyService
+  ) {}
+  ngOnInit(): void {
+    this.getCurrency();
   }
-  ngOnInit(): void {}
+  getCurrency() {
+    this.currencyApi.getCurrency().subscribe((result) => {
+      this.currency = result;
+      this.getData();
+      this.getGraphData(this.days);
+    });
+  }
   getData() {
     this.coinName = this.link.snapshot.paramMap.get('id');
     console.log(this.coinName);
     if (this.coinName != null) {
       this.api.getCoinData(this.coinName).subscribe((result) => {
         console.log(result);
+        if (this.currency === 'USD') {
+          result.market_data.current_price.cad =
+            result.market_data.current_price.usd;
+          result.market_data.market_cap.cad = result.market_data.market_cap.usd;
+        }
+        if (this.currency === 'INR') {
+          result.market_data.current_price.cad =
+            result.market_data.current_price.inr;
+          result.market_data.market_cap.cad = result.market_data.market_cap.inr;
+        }
+        result.market_data.current_price.cad =
+          result.market_data.current_price.cad;
+        result.market_data.market_cap.cad = result.market_data.market_cap.cad;
         this.coinData = result;
       });
     }
